@@ -6,17 +6,21 @@
 #include <string.h>
 #include <unistd.h>
 
-#define BUFSIZE 1024
-
 int main()
 {
-    // Create socket
+    // All variables needed
     int socket_listen_fd,
-        portno = 1817,
+        portno = 1815,
         client_len,
-        socket_connection_fd;
-    struct sockaddr_in serv_addr, client_addr;
+        socket_connection_fd,
+        kq,
+        new_events;
+    struct kevent change_event[4],
+        event[4];
+    struct sockaddr_in serv_addr,
+        client_addr;
 
+    // Create socket
     if (((socket_listen_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0))
     {
         perror("ERROR opening socket");
@@ -40,9 +44,6 @@ int main()
     client_len = sizeof(client_addr);
 
     // Prepare the kqueue
-    int kq;
-    struct kevent change_event[4];
-    struct kevent event[4];
     kq = kqueue();
 
     // Create event
@@ -56,7 +57,6 @@ int main()
     }
 
     // Actual event loop
-    int new_events;
     for (;;)
     {
         // Check for new events, but do not register new events with
