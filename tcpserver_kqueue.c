@@ -86,7 +86,7 @@ int main()
                 close(event_fd);
             }
             // If the new event's file descriptor is the same as the listening
-            // socket's file descriptor, we are sure that a new client want 
+            // socket's file descriptor, we are sure that a new client wants 
             // to connect to our socket.
             else if (event_fd == socket_listen_fd)
             {
