@@ -78,7 +78,7 @@ int main()
         {
             int event_fd = event[i].ident;
 
-            // When the client disconnects an EOF is send. By closing the file
+            // When the client disconnects an EOF is sent. By closing the file
             // descriptor the event is automatically removed from the kqueue.
             if (event[i].flags & EV_EOF)
             {
