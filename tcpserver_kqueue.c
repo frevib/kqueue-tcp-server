@@ -84,7 +84,7 @@ int main()
             if (event[i].flags & EV_EOF)
             {
                 printf("Client has disconnected\n");
-                close(event_fd);
+               close(event_fd);
             }
             // If the new event's file descriptor is the same as the listening
             // socket's file descriptor, we are sure that a new client wants 
