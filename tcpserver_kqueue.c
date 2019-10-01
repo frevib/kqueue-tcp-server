@@ -10,7 +10,7 @@ int main()
 {
     // All needed variables.
     int socket_listen_fd,
-        portno = 1815,
+        portno = 1816,
         client_len,
         socket_connection_fd,
         kq,
@@ -76,13 +76,14 @@ int main()
 
         for (int i = 0; new_events > i; i++)
         {
+            printf("amount of new events: %d\n", new_events);
             int event_fd = event[i].ident;
 
             // When the client disconnects an EOF is sent. By closing the file
             // descriptor the event is automatically removed from the kqueue.
             if (event[i].flags & EV_EOF)
             {
-                printf("Client has disconnected");
+                printf("Client has disconnected\n");
                 close(event_fd);
             }
             // If the new event's file descriptor is the same as the listening
@@ -90,6 +91,8 @@ int main()
             // to connect to our socket.
             else if (event_fd == socket_listen_fd)
             {
+                printf("New connection coming in...\n");    
+
                 // Incoming socket connection on the listening socket.
                 // Create a new socket for the actual connection to client.
                 socket_connection_fd = accept(event_fd, (struct sockaddr *)&client_addr, (socklen_t *)&client_len);
